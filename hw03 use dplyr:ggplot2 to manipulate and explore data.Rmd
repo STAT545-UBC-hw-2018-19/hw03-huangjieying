@@ -1,0 +1,145 @@
+---
+title: "Use dply/ggplot2 to manipulate and explore data"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Load the data and packages
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(gapminder))
+```
+
+## Get the maximum and minimum of GDP per capita for all continents.
+
+```{r}
+mm=gapminder %>% 
+  group_by(continent) %>% 
+  summarise(max.gdp=max(gdpPercap), min.gdp=min(gdpPercap))
+knitr::kable(mm)
+```
+
+Let's visualize this data. Here I will use bar chart to plot maximum and minimum values for each continent seperately. 
+
+```{r minimum gdp}
+gapminder %>% 
+  group_by(continent) %>% 
+  summarise(max=max(gdpPercap), min=min(gdpPercap)) %>%
+  gather(key=type, value=GDP.per.capita, 2:3) %>% 
+  ggplot(aes(x=continent, y=GDP.per.capita, fill=continent)) + 
+  geom_bar(stat = "identity")+
+  facet_wrap(.~type, scale="free_y") +
+  guides(fill=FALSE)
+```
+
+
+## Look at the spread of GDP per capita within the continents.
+
+Let's look at the standard deviation of gdp on different continents through `sd()` function
+```{r}
+stats=gapminder %>% 
+  group_by(continent) %>% 
+  summarise(spread=sd(gdpPercap),
+            min=min(gdpPercap),
+            Qu.1st=quantile(gdpPercap, probs= 0.25),
+            median=median(gdpPercap),
+            mean=mean(gdpPercap),
+            Qu.3st=quantile(gdpPercap, probs= 0.25),
+            max=max(gdpPercap))
+            
+knitr::kable(stats)
+```
+
+
+One way to visualize the spread of data is through histogram
+```{r spread of GDP per capita within the continents}
+gapminder %>% 
+  ggplot(aes(gdpPercap))+
+  geom_histogram(aes(y=..density.., fill=continent), bins=20)+
+  geom_density()+
+  facet_wrap(~continent)+
+  guides(fill=FALSE)
+
+```
+
+When we want to check the spread of data, using violin along with jitter plot is a good option
+
+```{r spread with violin and jitter plot}
+gapminder%>%
+  ggplot(aes(continent, gdpPercap, color = continent))+
+  geom_jitter(aes(alpha = 0.1))+
+  geom_violin() 
+  
+  
+```
+
+
+## Compute a trimmed mean or a weighted mean of life expectancy for different years. 
+
+Here I will explore the mean weighting by population
+```{r}
+df_m=gapminder %>% 
+  group_by(year) %>% 
+  summarise(weighted_lifeExp=weighted.mean(lifeExp, pop))
+knitr::kable(df_m)
+```
+
+Let's visualize this data
+```{r weighted mean lifeExp over time}
+gapminder %>% 
+  group_by(year) %>% 
+  summarise(weighted_mean=weighted.mean(lifeExp, pop)) %>% 
+  ggplot(aes(year, weighted_mean)) + 
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
+
+
+## How is life expectancy changing over time on different continents?
+Here, I will use weighted mean of lifeExp to illustrate its change over time
+```{r}
+life=gapminder %>%
+  group_by(continent, year) %>%
+  summarise(weighted_lifeExp=weighted.mean(lifeExp, pop))
+knitr::kable(life)
+```
+
+```{r lifeExp vs. time on different continents}
+life %>% 
+  ggplot(aes(year, weighted_lifeExp, color=continent)) + 
+  geom_point()+
+  geom_smooth(method = "lm")
+
+```
+
+## Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: 
+
+Here, I will first compute the mean value of worldwide life expectancy, then use this value as a benchmark to determine how many countries on each continent have a life expectancy less than this value, for each year.
+
+```{r}
+mean=summarise(gapminder,mean(lifeExp)) ## compute mean worldwide life expectancy
+## knowing the mean value of worldwide life expectancy is 59.5, I will count how many countries within each continent have a ife expectancy less than this value
+df_c=gapminder %>% 
+  group_by(continent) %>% 
+  filter(lifeExp<59.5) %>% 
+  tally()
+knitr::kable(df_c)
+```
+
+From this table we can see that Africa and Asia countries have more population have lower life expectancy compared to countries on other continents.
+
+
+Now let's plot the data. I will first plot lifeExp of all range for all continents but use mean value as a benchmark to differentiate life expectancy above and below such value.
+```{r lifeExp greater than 59.5}
+gapminder %>% 
+  ggplot(aes(year, lifeExp)) + 
+  geom_point(aes(color=lifeExp>=59.5))+ # use mean lifeExp as a benchmark 
+  facet_wrap(~continent) +
+  geom_smooth()
+```
+
+
+
