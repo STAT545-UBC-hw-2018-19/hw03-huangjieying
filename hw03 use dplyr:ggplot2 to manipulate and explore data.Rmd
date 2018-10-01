@@ -12,7 +12,7 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(gapminder))
 ```
 
-## Get the maximum and minimum of GDP per capita for all continents.
+## Task1: Get the maximum and minimum of GDP per capita for all continents.
 
 ```{r}
 mm=gapminder %>% 
@@ -35,7 +35,7 @@ gapminder %>%
 ```
 
 
-## Look at the spread of GDP per capita within the continents.
+## Task2: Look at the spread of GDP per capita within the continents.
 
 Let's look at the standard deviation of gdp on different continents through `sd()` function
 ```{r}
@@ -76,7 +76,7 @@ gapminder%>%
 ```
 
 
-## Compute a trimmed mean or a weighted mean of life expectancy for different years. 
+## Task3: Compute a trimmed mean or a weighted mean of life expectancy for different years. 
 
 Here I will explore the mean weighting by population
 ```{r}
@@ -98,7 +98,7 @@ gapminder %>%
 
 
 
-## How is life expectancy changing over time on different continents?
+## Task4: How is life expectancy changing over time on different continents?
 Here, I will use weighted mean of lifeExp to illustrate its change over time
 ```{r}
 life=gapminder %>%
@@ -115,7 +115,7 @@ life %>%
 
 ```
 
-## Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: 
+## Task5: Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: 
 
 Here, I will first compute the mean value of worldwide life expectancy, then use this value as a benchmark to determine how many countries on each continent have a life expectancy less than this value, for each year.
 
