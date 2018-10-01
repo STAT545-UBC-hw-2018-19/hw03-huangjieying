@@ -43,8 +43,8 @@ gapminder %>%
 
 ## Task2: Look at the spread of GDP per capita within the continents.
 
-Let’s look at the standard deviation of gdp on different continents
-through `sd()` function
+Let’s look at the spread of gdp on different continents through
+`summarise()` function
 
 ``` r
 stats=gapminder %>% 
@@ -75,7 +75,7 @@ gapminder %>%
   ggplot(aes(gdpPercap))+
   geom_histogram(aes(y=..density.., fill=continent), bins=20)+
   geom_density()+
-  facet_wrap(~continent)+
+  facet_wrap(.~continent, scale="free_y") +
   guides(fill=FALSE)
 ```
 
@@ -131,6 +131,10 @@ gapminder %>%
 ```
 
 ![](hw03_use_dplyr_ggplot2_to_manipulate_and_explore_data_files/figure-gfm/weighted%20mean%20lifeExp%20over%20time-1.png)<!-- -->
+
+From this figure we can see that worldwide life expectancy is increasing
+over
+time.
 
 ## Task4: How is life expectancy changing over time on different continents?
 
@@ -259,3 +263,6 @@ gapminder %>%
     ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
 ![](hw03_use_dplyr_ggplot2_to_manipulate_and_explore_data_files/figure-gfm/lifeExp%20greater%20than%2059.5-1.png)<!-- -->
+
+From this figure we can see that Africa has the largest amount of
+population with low life expectancy by looking at the fitted line.
