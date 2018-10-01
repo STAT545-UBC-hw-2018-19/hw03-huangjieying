@@ -8,7 +8,7 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(gapminder))
 ```
 
-## Get the maximum and minimum of GDP per capita for all continents.
+## Task1: Get the maximum and minimum of GDP per capita for all continents.
 
 ``` r
 mm=gapminder %>% 
@@ -41,7 +41,7 @@ gapminder %>%
 
 ![](hw03_use_dplyr_ggplot2_to_manipulate_and_explore_data_files/figure-gfm/minimum%20gdp-1.png)<!-- -->
 
-## Look at the spread of GDP per capita within the continents.
+## Task2: Look at the spread of GDP per capita within the continents.
 
 Let’s look at the standard deviation of gdp on different continents
 through `sd()` function
@@ -93,7 +93,7 @@ gapminder%>%
 
 ![](hw03_use_dplyr_ggplot2_to_manipulate_and_explore_data_files/figure-gfm/spread%20with%20violin%20and%20jitter%20plot-1.png)<!-- -->
 
-## Compute a trimmed mean or a weighted mean of life expectancy for different years.
+## Task3: Compute a trimmed mean or a weighted mean of life expectancy for different years.
 
 Here I will explore the mean weighting by population
 
@@ -132,7 +132,7 @@ gapminder %>%
 
 ![](hw03_use_dplyr_ggplot2_to_manipulate_and_explore_data_files/figure-gfm/weighted%20mean%20lifeExp%20over%20time-1.png)<!-- -->
 
-## How is life expectancy changing over time on different continents?
+## Task4: How is life expectancy changing over time on different continents?
 
 Here, I will use weighted mean of lifeExp to illustrate its change over
 time
@@ -216,7 +216,7 @@ life %>%
 
 ![](hw03_use_dplyr_ggplot2_to_manipulate_and_explore_data_files/figure-gfm/lifeExp%20vs.%20time%20on%20different%20continents-1.png)<!-- -->
 
-## Report the absolute and/or relative abundance of countries with low life expectancy over time by continent:
+## Task5: Report the absolute and/or relative abundance of countries with low life expectancy over time by continent:
 
 Here, I will first compute the mean value of worldwide life expectancy,
 then use this value as a benchmark to determine how many countries on
