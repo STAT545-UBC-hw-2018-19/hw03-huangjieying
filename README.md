@@ -1,6 +1,7 @@
 # hw03-Use dplyr/ggplot2 to manipulate and explore data
 
-This is my repo for Stat 545 A Homework03: Use dplyr/ggplot2 to manipulate and explore data 
+This is my repo for Stat 545 A Homework03: Use dplyr/ggplot2 to manipulate and explore data.
+
 The goal is to manipulate and explore a dataset with the dplyr package, complemented by visualizations made with ggplot2.
 
 ## Task list
